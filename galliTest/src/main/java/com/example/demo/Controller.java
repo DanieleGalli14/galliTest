@@ -1,11 +1,14 @@
 package com.example.demo;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +21,28 @@ public class Controller {
 	@GetMapping("/")
 	public String index() {
 		return "Hello World";
+	}
+	
+	@GetMapping ("/space")
+	public LinkedList<Point> getSpace() {
+		if(space.isEmpty()) {
+			return null;
+		}
+	
+		return space;
+	}
+	
+	@GetMapping("/space/{n}")
+	public Set<Point> getPoint(@PathVariable int n) {
+		
+		Set<Point> passing = new HashSet<>();
+		
+		for(Point p : space) {
+			if (p.getX() == n)
+				passing.add(p);
+		}
+		
+		return passing;
 	}
 	
 	@PostMapping("/point")
