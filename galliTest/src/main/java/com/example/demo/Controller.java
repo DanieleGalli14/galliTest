@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +49,16 @@ public class Controller {
 		space.add(point);
 		
 		return "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")";
+	}
+	
+	@DeleteMapping("/space")
+	public String emptySpace() {
+		
+		if(space.isEmpty()) 
+			return "The space was already empty";
+		
+		space.removeAll(space);
+		return "The space has been emptied";
+		
 	}
 }
