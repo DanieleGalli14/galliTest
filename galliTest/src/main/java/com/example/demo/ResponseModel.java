@@ -2,6 +2,11 @@ package com.example.demo;
 
 import java.time.Instant;
 
+/**
+ * This class defines the standard response of each method
+ * Thanks to this class, ech method will produce JSON
+ *
+ */
 public class ResponseModel {
 	
 	private Instant timestamp;

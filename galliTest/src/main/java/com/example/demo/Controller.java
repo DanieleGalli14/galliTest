@@ -20,6 +20,11 @@ public class Controller {
 	
 	private LinkedList<Point> space = new LinkedList<Point>();
 	
+	/**
+	 * This method returns the list of point saves in the space
+	 * 
+	 * @return the list of points
+	 */
 	@GetMapping ("/space")
 	public ResponseModel getSpace(HttpServletRequest request) {
 		if(space.isEmpty()) {
@@ -29,6 +34,12 @@ public class Controller {
 		return new ResponseModel(Instant.now(), 200, "OK", space, request.getRequestURL().toString());
 	}
 	
+	/**
+	 * Given a value n, this method returns a set of line segments which passes through at least n points
+	 * 
+	 * @param n
+	 * @return the set of line segments which passed at least n points in the space
+	 */
 	@GetMapping("/space/{n}")
 	public ResponseModel getPoint(@PathVariable int n, HttpServletRequest request) {
 		
@@ -42,6 +53,11 @@ public class Controller {
 		return new ResponseModel(Instant.now(), 200, "OK", (!passing.isEmpty()) ? passing : "There are no point passing on " + n, request.getRequestURL().toString());
 	}
 	
+	/**
+	 * addPoint adds a new point to the space
+	 * 
+	 * @param A new point p
+	 */
 	@PostMapping("/point")
 	public ResponseModel addPoint(@Valid @RequestBody PointRequest p, HttpServletRequest request) {
 		
@@ -52,7 +68,10 @@ public class Controller {
 		return new ResponseModel(Instant.now(), 200, "OK", "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")", request.getRequestURL().toString());
 	}
 	
-	
+	/**
+	 * emptySpace deletes all the points saved in the space
+	 * 
+	 */
 	@DeleteMapping("/space")
 	public ResponseModel emptySpace(HttpServletRequest request) {
 		
