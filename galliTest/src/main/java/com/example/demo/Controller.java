@@ -18,11 +18,6 @@ public class Controller {
 	
 	private LinkedList<Point> space = new LinkedList<Point>();
 	
-	@GetMapping("/")
-	public String index() {
-		return "Hello World";
-	}
-	
 	@GetMapping ("/space")
 	public LinkedList<Point> getSpace() {
 		if(space.isEmpty()) {
