@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -20,16 +21,16 @@ public class Controller {
 	private LinkedList<Point> space = new LinkedList<Point>();
 	
 	@GetMapping ("/space")
-	public LinkedList<Point> getSpace() {
+	public ResponseModel getSpace(HttpServletRequest request) {
 		if(space.isEmpty()) {
-			return null;
+			return new ResponseModel(Instant.now(), 200, "OK", "The space is empty", request.getRequestURL().toString());
 		}
 	
-		return space;
+		return new ResponseModel(Instant.now(), 200, "OK", space, request.getRequestURL().toString());
 	}
 	
 	@GetMapping("/space/{n}")
-	public Set<Point> getPoint(@PathVariable int n) {
+	public ResponseModel getPoint(@PathVariable int n, HttpServletRequest request) {
 		
 		Set<Point> passing = new HashSet<>();
 		
@@ -38,27 +39,27 @@ public class Controller {
 				passing.add(p);
 		}
 		
-		return passing;
+		return new ResponseModel(Instant.now(), 200, "OK", (!passing.isEmpty()) ? passing : "There are no point passing on " + n, request.getRequestURL().toString());
 	}
 	
 	@PostMapping("/point")
-	public String addPoint(@Valid @RequestBody PointRequest p, HttpServletRequest request) {
+	public ResponseModel addPoint(@Valid @RequestBody PointRequest p, HttpServletRequest request) {
 		
 		Point point = new Point(p.getX(), p.getY());
 		
 		space.add(point);
 		
-		return "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")";
+		return new ResponseModel(Instant.now(), 200, "OK", "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")", request.getRequestURL().toString());
 	}
 	
+	
 	@DeleteMapping("/space")
-	public String emptySpace() {
+	public ResponseModel emptySpace(HttpServletRequest request) {
 		
 		if(space.isEmpty()) 
-			return "The space was already empty";
+			return new ResponseModel(Instant.now(), 200, "OK", "The space was already empty", request.getRequestURL().toString());
 		
 		space.removeAll(space);
-		return "The space has been emptied";
-		
+		return new ResponseModel(Instant.now(), 200, "OK", "The space has been emptied", request.getRequestURL().toString());
 	}
 }
