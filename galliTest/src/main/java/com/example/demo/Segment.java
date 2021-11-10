@@ -51,17 +51,20 @@ public class Segment {
 	 */
 	public boolean contains(Point p) {
 		
+		//First evaluates slope and intercept, to obtain the line function
 		double m = slope();
 		double i = intercept();
 		double maxX, minX, maxY, minY;
 		
+		//ensure that f(p.getX) is equal to p.getY
 		if(m * p.getX() + i == p.getY()) {
-			
+			//We are sure that p is a point of the line, we need to check if it's also a point of the segment
 			maxX = Math.max(p1.getX(), p2.getX());
 			minX = Math.min(p1.getX(), p2.getX());
 			maxY = Math.max(p1.getY(), p2.getY());
 			minY = Math.min(p1.getY(), p2.getY());
 			
+			//with the max and min values defines over, we need to check if both the values of p is between the corresponding values of p1 and p2
 			return ((p.getX() >= minX && p.getX() <= maxX) && (p.getY() >= minY && p.getY() <= maxY));
 			
 		}

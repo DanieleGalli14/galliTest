@@ -4,7 +4,7 @@ import java.time.Instant;
 
 /**
  * This class defines the standard response of each method
- * Thanks to this class, ech method will produce JSON
+ * Thanks to this class, each method will produce JSON
  *
  */
 public class ResponseModel {
