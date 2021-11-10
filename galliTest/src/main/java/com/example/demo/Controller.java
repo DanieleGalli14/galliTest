@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 	
 	private LinkedList<Point> space = new LinkedList<Point>();
+	private LinkedList<Segment> segments = new LinkedList<>();
 	
 	/**
 	 * This method returns the list of point saves in the space
@@ -40,8 +42,11 @@ public class Controller {
 	 * @param n
 	 * @return the set of line segments which passed at least n points in the space
 	 */
-	@GetMapping("/space/{n}")
+	@GetMapping("/lines/{n}")
 	public ResponseModel getPoint(@PathVariable int n, HttpServletRequest request) {
+		
+		if(space.isEmpty())
+			return new ResponseModel(Instant.now(), 200, "OK", "There are no point in the space ", request.getRequestURL().toString());
 		
 		Set<Point> passing = new HashSet<>();
 		
@@ -65,6 +70,10 @@ public class Controller {
 		
 		space.add(point);
 		
+		for(Point p1 : space) {
+			segments.add(new Segment(p1, point));
+		}
+		
 		return new ResponseModel(Instant.now(), 200, "OK", "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")", request.getRequestURL().toString());
 	}
 	
@@ -78,7 +87,9 @@ public class Controller {
 		if(space.isEmpty()) 
 			return new ResponseModel(Instant.now(), 200, "OK", "The space was already empty", request.getRequestURL().toString());
 		
-		space.removeAll(space);
+		space.clear();
+		segments.clear();
+		
 		return new ResponseModel(Instant.now(), 200, "OK", "The space has been emptied", request.getRequestURL().toString());
 	}
 }
