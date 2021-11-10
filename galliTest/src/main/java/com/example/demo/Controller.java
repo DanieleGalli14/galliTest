@@ -42,7 +42,7 @@ public class Controller {
 	 * @return the set of line segments which passed at least n points in the space
 	 */
 	@GetMapping("/lines/{n}")
-	public ResponseModel getPoint(@PathVariable int n, HttpServletRequest request) {
+	public ResponseModel getLines(@PathVariable int n, HttpServletRequest request) {
 		
 		if(space.isEmpty())
 			return new ResponseModel(Instant.now(), 200, "OK", "There are no point in the space ", request.getRequestURL().toString());
