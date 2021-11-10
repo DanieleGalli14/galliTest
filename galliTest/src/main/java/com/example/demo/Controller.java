@@ -48,11 +48,10 @@ public class Controller {
 		if(space.isEmpty())
 			return new ResponseModel(Instant.now(), 200, "OK", "There are no point in the space ", request.getRequestURL().toString());
 		
-		Set<Point> passing = new HashSet<>();
+		Set<Segment> passing = new HashSet<>();
 		
-		for(Point p : space) {
-			if (p.getX() == n)
-				passing.add(p);
+		for(Segment s : segments) {
+			
 		}
 		
 		return new ResponseModel(Instant.now(), 200, "OK", (!passing.isEmpty()) ? passing : "There are no point passing on " + n, request.getRequestURL().toString());
