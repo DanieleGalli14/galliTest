@@ -1,11 +1,18 @@
 package com.example.demo;
 
+/**
+ * The class Segment defines a line segment, define by passing the two points
+ *
+ */
 public class Segment {
 	private Point p1;
 	private Point p2;
 	
 	public Segment(Point p1, Point p2) {
-		super();
+		
+		if(p1 == null || p2 == null)
+			throw new NullPointerException("No null Point are allowed");
+
 		this.p1 = p1;
 		this.p2 = p2;
 	}
@@ -18,24 +25,37 @@ public class Segment {
 		return p2;
 	}
 	
-	public double getSlope() {
+	/**
+	 * Calculate the slope of the segment
+	 * @return the slope of the segment
+	 */
+	public double slope() {
 		double diffX = p2.getX() - p1.getX();
 		double diffY = p2.getY() - p1.getY();
 		
 		return diffY/diffX;
 	}
 	
-	public double getIntercept() {
-		return p1.getY() - getSlope() * p1.getX();
+	/**
+	 * Calculate the intercept of the segment
+	 * @return calculate the intercept of the segment
+	 */
+	public double intercept() {
+		return p1.getY() - slope() * p1.getX();
 	}
 	
+	/**
+	 * Determines if a given point passes through the segment
+	 * @param p, a point
+	 * @return true if p passes through the segment, false if not
+	 */
 	public boolean contains(Point p) {
 		
-		double m = getSlope();
-		double i = getIntercept();
+		double m = slope();
+		double i = intercept();
 		double maxX, minX, maxY, minY;
 		
-		if(m * p.getX() +i == p.getY()) {
+		if(m * p.getX() + i == p.getY()) {
 			
 			maxX = Math.max(p1.getX(), p2.getX());
 			minX = Math.min(p1.getX(), p2.getX());

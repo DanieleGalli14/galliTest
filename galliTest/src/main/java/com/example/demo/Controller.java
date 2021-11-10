@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -48,13 +47,21 @@ public class Controller {
 		if(space.isEmpty())
 			return new ResponseModel(Instant.now(), 200, "OK", "There are no point in the space ", request.getRequestURL().toString());
 		
+		if(n < 2)
+			return new ResponseModel(Instant.now(), 200, "OK", "Invalid output (n must be at least 2) ", request.getRequestURL().toString());
+		
 		Set<Segment> passing = new HashSet<>();
+		int i = 0;
 		
 		for(Segment s : segments) {
+			for(Point p : space) {
+				if(s.contains(p)) i++;
+			}
 			
+			if(i >= n) passing.add(s);
 		}
-		
-		return new ResponseModel(Instant.now(), 200, "OK", (!passing.isEmpty()) ? passing : "There are no point passing on " + n, request.getRequestURL().toString());
+
+		return new ResponseModel(Instant.now(), 200, "OK", (!passing.isEmpty()) ? passing : "There are no segment passing at least " + n + " points", request.getRequestURL().toString());
 	}
 	
 	/**
@@ -70,7 +77,8 @@ public class Controller {
 		space.add(point);
 		
 		for(Point p1 : space) {
-			segments.add(new Segment(p1, point));
+			if(!p1.equals(point))
+				segments.add(new Segment(p1, point));
 		}
 		
 		return new ResponseModel(Instant.now(), 200, "OK", "Added the point with coordinates (" + point.getX() + ", " + point.getY() + ")", request.getRequestURL().toString());
